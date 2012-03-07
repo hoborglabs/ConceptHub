@@ -1,0 +1,134 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/styles/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="/styles/css/base.css" />
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="/scripts/jquery.event.wheel.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- 
+		<script type="text/javascript" src="scripts/jquery.drag.js"></script>
+		 -->
+		
+		<script type="text/javascript">
+		$(function() {
+			$.ajax({
+				url: 'folder.php?f=img',
+				dataType: 'json',
+				success: function(data) {
+					$.each(data, function(index, item) {
+						console.log(item);
+						$('.files').append('<li><a href="' + item + '"><i class="icon-picture"></i>' + item + '</a></li>')
+					});
+					
+					$('.files a').click(function() {
+						loadImage($(this).attr('href'));
+						return false;
+					})
+				}
+			});
+			
+			$('.reset').click(function() {
+				zoom = 100;
+				reset();
+			});
+			
+			$('.zoom-in').click(function() {
+				zoom += 10;
+				drawImage();
+			});
+			$('.zoom-out').click(function() {
+				zoom -= 10;
+				if (zoom < 10) {
+					zoom = 10;
+				}
+				drawImage();
+			});
+			
+			$('#image').draggable();
+			var zoom = 100;
+			var imageSize = {
+				width: $('#image').width(),
+				height: $('#image').height()
+			};
+			
+			$('#image').load(handleImageLoaded);
+			
+			function loadImage(image) {
+				$('#image').css({width: 'auto', height: 'auto'});
+				$('#image').attr({src: image});
+			}
+			
+			function handleImageLoaded() {
+				console.log()
+				imageSize = {
+					width: $('#image').width(),
+					height: $('#image').height()
+				};
+				zoom = 100;
+				reset();
+			}
+			
+			function reset() {
+				var left = ($('#viewport').width() - imageSize.width) / 2;
+				var top = ($('#viewport').height() - imageSize.height) / 2;
+
+				$('#image').css({
+					left: left,
+					top: top,
+					width: imageSize.width,
+					height: imageSize.height
+				});
+			}
+			
+			function drawImage() {
+				var p = $('#image').position();
+				var location = {
+					width: imageSize.width * zoom / 100,
+					height: imageSize.height * zoom / 100,
+					top: parseInt($('#image').css('top').replace('px', '')),
+					left: parseInt($('#image').css('left').replace('px', ''))
+				};
+				location.top -= ((location.height - $('#image').height()) / 2);
+				location.left -= ((location.width - $('#image').width()) / 2);
+
+				$('#image').css(location);
+			}
+			
+			$('#viewport').bind('wheel',function(event,delta) {
+				var sign = delta < 0 ? -1 : 1;
+				
+				zoom += sign * Math.pow(Math.abs(delta), 2);
+				if (zoom < 10) {
+					zoom = 10;
+				}
+				
+				drawImage();
+			});
+		});
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="span3 navigation">
+					<ul class="nav nav-list files">
+						<li class="nav-header">Files</li>
+					</ul>
+				</div>
+				<div class="span9 preview">
+					<div class="btn-toolbar">
+						<div class="btn-group">
+							<a class="btn reset">1:1</a>
+							<a class="btn zoom-in"><i class="icon-zoom-in"></i> zoom in</a>
+							<a class="btn zoom-out"><i class="icon-zoom-out"></i> zoom out</a>
+						</div>
+					</div>
+					<div id="viewport">
+						<img style="cursor: move;" id="image" class="" src="img/test.png" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

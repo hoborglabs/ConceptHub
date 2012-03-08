@@ -28,7 +28,6 @@ var wheelEvents = !$.browser.mozilla ? "mousewheel" : // IE, opera, safari
 
 // shared event handler
 function wheelHandler( event ){
-	console.log('handler', event);
 	switch ( event.type ){
 		case "mousemove": // FF2 has incorrect event positions
 			return $.extend( event.data, { // store the correct properties

@@ -4,7 +4,7 @@ $home = realpath(__DIR__);
 $target = realpath($home . '/' . $folder);
 
 if (false === strpos($target, $home) || $home == $target) {
-	echo json_encode(array(array('src' => '?', 'name' => 'are you kidding me?')));
+	echo json_encode(array(array('src' => '/error.png', 'name' => 'are you kidding me?')));
 	return;
 }
 

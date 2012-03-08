@@ -1,0 +1,6 @@
+# IDE files nad folders
+.buildpath
+.project
+.settings/
+
+/img/*

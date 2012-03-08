@@ -11,12 +11,14 @@ window.PreviewView = Backbone.View.extend({
 		"click .reset": "handleReset",
 		'click .zoom-in': 'handleZoomIn',
 		'click .zoom-out': 'handleZoomOut',
+		'click .zoom-fit': 'handleZoomFit',
+		'click .zoom-horizontal': 'handleZoomFitWidth'
 	},
 	
 	initialize: function() {
 		this.bindEvents();
 		$('#image').draggable();
-		this.options.zoom = 100;
+		this.setZoom(100);
 		this.options.imageSize = {
 			width : 60,
 			height : 60
@@ -34,26 +36,39 @@ window.PreviewView = Backbone.View.extend({
 	},
 	
 	handleZoomIn: function() {
-		this.options.zoom += 10;
+		this.changeZoom(10);
 		this.drawImage();
 	},
 	
 	handleZoomOut: function() {
-		this.options.zoom -= 10;
-		if (this.options.zoom < 10) {
-			this.options.zoom = 10;
-		}
+		this.changeZoom(-10);
 		this.drawImage();
+	},
+	
+	handleZoomFit: function() {
+		var widthRatio = $('#viewport').width() / this.options.imageSize.width;
+		var heightRatio = $('#viewport').height() / this.options.imageSize.height;
+		
+		if (widthRatio < heightRatio) {
+			this.setZoom(100 * widthRatio)
+		} else {
+			this.setZoom(100 * heightRatio)
+		}
+		
+		this.drawImage();
+		this.centerImage();
+	},
+	
+	handleZoomFitWidth: function() {
+		var widthRatio = $('#viewport').width() / this.options.imageSize.width;
+		this.setZoom(100 * widthRatio);
+		this.drawImage();
+		this.centerImage();
 	},
 	
 	handleWheel: function(event, delta) {
 		var sign = delta < 0 ? -1 : 1;
-
-		this.options.zoom += sign * Math.pow(Math.abs(delta), 2);
-		if (this.options.zoom < 10) {
-			this.options.zoom = 10;
-		}
-
+		this.changeZoom(sign * Math.pow(Math.abs(delta), 2));
 		this.drawImage();
 	},
 	
@@ -68,7 +83,6 @@ window.PreviewView = Backbone.View.extend({
 	},
 	
 	handleImageLoaded: function() {
-		console.log('image loaded');
 		this.options.imageSize = {
 			width : $('#image').width(),
 			height : $('#image').height()
@@ -77,8 +91,7 @@ window.PreviewView = Backbone.View.extend({
 	},
 
 	reset: function() {
-		console.log('reset');
-		this.options.zoom = 100;
+		this.setZoom(100);
 		var left = ($('#viewport').width() - this.options.imageSize.width) / 2;
 		var top = ($('#viewport').height() - this.options.imageSize.height) / 2;
 
@@ -89,10 +102,27 @@ window.PreviewView = Backbone.View.extend({
 			height : this.options.imageSize.height
 		});
 	},
+	
+	changeZoom: function(delta) {
+		this.options.zoom += parseInt(delta);
+		if (this.options.zoom < 10) {
+			this.options.zoom = 10;
+		}
 
-	drawImage: function () {
+		this.displayZoom();
+	},
+	
+	setZoom: function(zoom) {
+		this.options.zoom = parseInt(zoom);
+		this.displayZoom();
+	},
+	
+	displayZoom: function() {
+		$('.zoom').html(this.options.zoom);
+	},
+
+	drawImage: function() {
 		var zoom = this.options.zoom;
-		var p = $('#image').position();
 		var location = {
 			width : this.options.imageSize.width * zoom / 100,
 			height : this.options.imageSize.height * zoom / 100,
@@ -102,6 +132,14 @@ window.PreviewView = Backbone.View.extend({
 		location.top -= ((location.height - $('#image').height()) / 2);
 		location.left -= ((location.width - $('#image').width()) / 2);
 
+		$('#image').css(location);
+	},
+	
+	centerImage: function() {
+		var location = {
+			top : parseInt(($('#viewport').height() - $('#image').height()) / 2),
+			left : parseInt(($('#viewport').width() - $('#image').width()) / 2)
+		};
 		$('#image').css(location);
 	}
 

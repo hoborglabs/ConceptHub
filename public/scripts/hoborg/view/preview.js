@@ -32,6 +32,7 @@ window.PreviewView = Backbone.View.extend({
 	},
 	
 	handleReset: function() {
+		this.setZoom(100);
 		this.reset();
 	},
 	
@@ -88,10 +89,10 @@ window.PreviewView = Backbone.View.extend({
 			height : $('#image').height()
 		};
 		this.reset();
+		this.drawImage();
 	},
 
 	reset: function() {
-		this.setZoom(100);
 		var left = ($('#viewport').width() - this.options.imageSize.width) / 2;
 		var top = ($('#viewport').height() - this.options.imageSize.height) / 2;
 

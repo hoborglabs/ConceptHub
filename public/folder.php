@@ -9,8 +9,8 @@ $return = array();
 foreach ($files as $file) {
 	if (is_file($target . '/' . $file)) {
 		$return[] = array(
-			src => $folder . '/' . $file,
-			name => $file
+			'src' => $folder . '/' . $file,
+			'name' => $file
 		);
 	}
 }

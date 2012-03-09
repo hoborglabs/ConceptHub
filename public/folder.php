@@ -9,13 +9,17 @@ if (false === strpos($target, $home) || $home == $target) {
 }
 
 $files = scandir($target);
+$extesions = array('png', 'jpg', 'jpeg', 'gif');
 $return = array();
 foreach ($files as $file) {
 	if (is_file($target . '/' . $file)) {
-		$return[] = array(
-			'src' => $folder . '/' . $file,
-			'name' => $file
-		);
+		$ext = preg_replace('/.*?\.(.*)$/', '$1', $file);
+		if (in_array($ext, $extesions)) {
+			$return[] = array(
+				'src' => $folder . '/' . $file,
+				'name' => $file
+			);
+		}
 	}
 }
 echo json_encode($return);

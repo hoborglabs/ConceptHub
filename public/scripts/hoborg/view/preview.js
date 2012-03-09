@@ -125,13 +125,13 @@ window.PreviewView = Backbone.View.extend({
 	drawImage: function() {
 		var zoom = this.options.zoom;
 		var location = {
-			width : this.options.imageSize.width * zoom / 100,
-			height : this.options.imageSize.height * zoom / 100,
+			width : Math.round(this.options.imageSize.width * zoom / 100),
+			height : Math.round(this.options.imageSize.height * zoom / 100),
 			top : parseInt($('#image').css('top').replace('px', '')),
 			left : parseInt($('#image').css('left').replace('px', ''))
 		};
-		location.top -= ((location.height - $('#image').height()) / 2);
-		location.left -= ((location.width - $('#image').width()) / 2);
+		location.top -= Math.round((location.height - $('#image').height()) / 2);
+		location.left -= Math.round((location.width - $('#image').width()) / 2);
 
 		$('#image').css(location);
 	},

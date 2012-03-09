@@ -17,17 +17,26 @@ window.PreviewView = Backbone.View.extend({
 	
 	initialize: function() {
 		this.bindEvents();
+		this.resizeViewport();
 		$('#image').draggable();
-		this.setZoom(100);
+		
 		this.options.imageSize = {
 			width : 60,
 			height : 60
 		};
+		this.setZoom(100);
+	},
+	
+	resizeViewport: function() {
+		var p = $('#viewport').position();
+		var h = $(window).height();
+		$('#viewport').css({height: (h - p.top)});
 	},
 
 	bindEvents: function() {
 		bus.on('concepthub:file:load', this.handleFileLoad, this);
 
+		$(window).resize(_.bind(this.resizeViewport, this));
 		$('#image').load(_.bind(this.handleImageLoaded, this));
 	},
 	

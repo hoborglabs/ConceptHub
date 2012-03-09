@@ -17,6 +17,27 @@ body {
 .preview {
 }
 
+.files-thumb {
+	margin-left: -2px;
+}
+.files-thumb li {
+	width: 88px;
+	height: 88px;
+	overflow: hidden;
+	margin-left: 2px;
+	margin-bottom: 2px;
+	text-align: center;
+	float: left;
+}
+.files-thumb li a {
+	width: 100%;
+	height: 100%;
+	line-height: 88px;
+}
+.files-thumb li img {
+	vertical-align:middle;
+}
+
 .btn-label {
 	display: inline-block;
 	padding: 4px 10px 4px;

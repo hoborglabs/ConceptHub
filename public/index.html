@@ -11,6 +11,7 @@
 		<script type="text/javascript" src="/scripts/bootstrap.js"></script>
 		<script type="text/javascript" src="/scripts/hoborg/app.js"></script>
 		<script type="text/javascript" src="/scripts/hoborg/view/preview.js"></script>
+		<script type="text/javascript" src="/scripts/hoborg/view/navigation.js"></script>
 		
 		<script type="text/javascript">
 		$(function() {
@@ -36,8 +37,8 @@
 								href="#"
 							>View <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#"><i class="icon-th"></i> View as File Names</a></li>
-								<li><a href="#"><i class="icon-align-justify"></i> View as Thumbnails</a></li>
+								<li><a href="#" class="view-as-list"><i class="icon-align-justify"></i> View as File Names</a></li>
+								<li><a href="#" class="view-as-thumbs"><i class="icon-th"></i> View as Thumbnails</a></li>
 							</ul></li>
 					</ul>
 				</div>
@@ -46,10 +47,12 @@
 	
 		<div class="container">
 			<div class="row">
-				<div class="span3">
-					<ul class="nav nav-list files">
+				<div id="navigation" class="span3">
+					<ul class="nav nav-list">
 						<li class="nav-header">Files</li>
 					</ul>
+					<ul class="nav nav-list files"></ul>
+					<ul class="nav files-thumb" style="display: none;"></ul>
 				</div>
 				<div class="span9">
 					<div class="preview">

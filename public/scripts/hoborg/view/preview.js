@@ -1,5 +1,5 @@
 /**
- * Hoborg Labs ContentStandard
+ * Hoborg Labs - Concept Hub
  */
 window.PreviewView = Backbone.View.extend({
 	defaults: {

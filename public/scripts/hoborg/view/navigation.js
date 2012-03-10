@@ -18,25 +18,25 @@ window.NavigationView = Backbone.View.extend({
 	},
 	
 	switchViewType: function(type) {
+		var items = this.$('.carousel .item');
 		if (NavigationView.VIEW_TYPE_LIST == type) {
-			$('.files').show();
-			$('.files-thumb').hide();
+			$(items[0]).removeClass('prev');
+			$(items[1]).addClass('next');
 		}
 		if (NavigationView.VIEW_TYPE_THUMBS == type) {
-			$('.files').hide();
-			$('.files-thumb').show();
+			$(items[1]).removeClass('next');
+			$(items[0]).addClass('prev');
 		}
 	},
 
 	handleNavigationLoaded: function(data) {
+		var view = this;
 		$.each(data, function(index, item) {
 			$('.files').append(
 					'<li><a href="' + item.src + '">'
 					+ item.name + '</a></li>');
-			$('.files-thumb').append(
-					'<li class=""><a href="' + item.src + '"'
-					+ 'class=""><img src="' + item.src + '"'
-					+ 'alt="' + item.name + '"></a></li>');
+
+			view.addThumbnail(item);
 		});
 		this.bindNavigationEvents();
 		$('.files a:first').click();
@@ -50,6 +50,38 @@ window.NavigationView = Backbone.View.extend({
 	handleImageClick: function(event) {
 		bus.trigger('concepthub:file:load', $(event.currentTarget));
 		return false;
+	},
+	
+	addThumbnail: function(item) {
+		console.log(item);
+		var li = $('<li><a href="' + item.src + '"></a></li>');
+		var img = $('<img alt="' + item.name + '" />');
+		img.load(_.bind(this.handleThumbnailLoaded, this, img));
+		img.attr({
+			src : item.src
+		});
+
+		$('a' , li).append(img);
+		$('.files-thumb').append(li);
+	},
+	
+	handleThumbnailLoaded: function(image) {
+		var ratio = image.width() / image.height();
+		if (ratio > 1) {
+			image.css({
+				position: 'relative',
+				width: Math.round(88 * ratio),
+				height: 88,
+				left: Math.round(44 * (1 - ratio))
+			});
+		} else {
+			image.css({
+				position: 'relative',
+				width: 88,
+				height: Math.round(88 / ratio),
+				top: Math.round(88 - (88 / ratio))
+			});
+		}
 	}
 
 }, {

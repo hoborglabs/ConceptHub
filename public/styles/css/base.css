@@ -32,10 +32,9 @@ body {
 .files-thumb li a {
 	width: 100%;
 	height: 100%;
-	line-height: 88px;
 }
 .files-thumb li img {
-	vertical-align:middle;
+	max-width: none;
 }
 
 .btn-label {

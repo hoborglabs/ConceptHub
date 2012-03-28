@@ -3,9 +3,13 @@
  */
 window.AppView = Backbone.View.extend({
 
+	defaults: {
+		baseUrl: '/'
+	},
+
 	initialize: function() {
 		this.preview = new PreviewView({el: $('.preview')});
-		this.navigation = new NavigationView({el: $('#navigation')});
+		this.navigation = new NavigationView({el: $('#navigation'), baseUrl: this.options.baseUrl});
 
 		$('.view-as-list').click(function() {
 				bus.trigger('concepthub:navigation:view', NavigationView.VIEW_TYPE_LIST)});

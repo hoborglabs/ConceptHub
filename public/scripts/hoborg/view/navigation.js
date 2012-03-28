@@ -3,10 +3,14 @@
  */
 window.NavigationView = Backbone.View.extend({
 	
+	defaults: {
+		baseUrl: '/'
+	},
+
 	initialize: function() {
 		var folder  = (location.search.match(RegExp("[?|&]project=(.+?)(&|$)"))||[,null])[1]
 		$.ajax({
-			url : 'folder.php?f=' + folder,
+			url : this.options.baseUrl + 'folder.php?f=' + folder,
 			dataType : 'json',
 			success : _.bind(this.handleNavigationLoaded, this)
 		});

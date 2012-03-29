@@ -37,7 +37,7 @@ window.NavigationView = Backbone.View.extend({
 		var view = this;
 		$.each(data, function(index, item) {
 			$('.files').append(
-					'<li><a href="' + item.src + '">'
+					'<li><a href="' + this.options.baseUrl + item.src + '">'
 					+ item.name + '</a></li>');
 
 			view.addThumbnail(item);
@@ -58,7 +58,7 @@ window.NavigationView = Backbone.View.extend({
 	
 	addThumbnail: function(item) {
 		console.log(item);
-		var li = $('<li><a href="' + item.src + '"></a></li>');
+		var li = $('<li><a href="' + this.options.baseUrl + item.src + '"></a></li>');
 		var img = $('<img alt="' + item.name + '" />');
 		img.load(_.bind(this.handleThumbnailLoaded, this, img));
 		img.attr({
@@ -92,4 +92,3 @@ window.NavigationView = Backbone.View.extend({
 	VIEW_TYPE_LIST: 'list',
 	VIEW_TYPE_THUMBS: 'thumbs',
 });
-

@@ -35,9 +35,10 @@ window.NavigationView = Backbone.View.extend({
 
 	handleNavigationLoaded: function(data) {
 		var view = this;
+		var baseUrl = this.options.baseUrl;
 		$.each(data, function(index, item) {
 			$('.files').append(
-					'<li><a href="' + this.options.baseUrl + item.src + '">'
+					'<li><a href="' + baseUrl + item.src + '">'
 					+ item.name + '</a></li>');
 
 			view.addThumbnail(item);

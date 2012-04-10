@@ -4,3 +4,4 @@
 .settings/
 
 /img/*
+/node/node_modules

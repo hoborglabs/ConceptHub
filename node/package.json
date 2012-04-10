@@ -1,0 +1,15 @@
+{
+  "name": "concepthub-api",
+  "description": "ConceptHub REST API",
+  "version": "0.1.0",
+  "author": {
+    "name": "Wojtek Oledzki",
+    "email": "wojtek@hoborglabs.com"
+  },
+  "dependencies": {
+    "express": "2.x"
+  },
+  "keywords": [
+    "hoborglabs",
+  ]
+}

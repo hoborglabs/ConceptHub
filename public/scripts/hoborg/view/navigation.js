@@ -4,15 +4,22 @@
 window.NavigationView = Backbone.View.extend({
 	
 	defaults: {
-		baseUrl: '/'
+		baseUrl: '/',
+		apiUrl: '/api/1'
 	},
 
 	initialize: function() {
-		var folder  = (location.search.match(RegExp("[?|&]project=(.+?)(&|$)"))||[,null])[1]
+		this.options = _.extend(this.defaults, this.options);
+		var projectId  = (location.search.match(RegExp("[?|&]project=(.+?)(&|$)"))||[,null])[1];
+		app = this.options.app;
+		
 		$.ajax({
-			url : this.options.baseUrl + 'folder.php?f=' + folder,
+			url : this.options.apiUrl + '/project/' + projectId,
 			dataType : 'json',
-			success : _.bind(this.handleNavigationLoaded, this)
+			success : _.bind(this.handleNavigationLoaded, this),
+			error: function(call, status, err) {
+				app.error('connection problems');
+			}
 		});
 		this.bindEvents();
 	},
@@ -36,6 +43,7 @@ window.NavigationView = Backbone.View.extend({
 	handleNavigationLoaded: function(data) {
 		var view = this;
 		var baseUrl = this.options.baseUrl;
+		
 		$.each(data, function(index, item) {
 			$('.files').append(
 					'<li><a href="' + baseUrl + item.src + '">'
@@ -58,7 +66,6 @@ window.NavigationView = Backbone.View.extend({
 	},
 	
 	addThumbnail: function(item) {
-		console.log(item);
 		var li = $('<li><a href="' + this.options.baseUrl + item.src + '"></a></li>');
 		var img = $('<img alt="' + item.name + '" />');
 		img.load(_.bind(this.handleThumbnailLoaded, this, img));

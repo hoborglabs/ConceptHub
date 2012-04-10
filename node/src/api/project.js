@@ -30,6 +30,5 @@ function get(req, res) {
 	});
 
 	// send response
-	//res.contentType('json');
 	res.json(data);
 }

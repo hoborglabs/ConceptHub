@@ -1,0 +1,29 @@
+
+scripts:
+  libs.js:
+    root: ./../js/vendors
+    files:
+      - jquery.js
+      - underscore.js
+      - backbone.js
+      - jquery.ui.js
+      - jquery.event.wheel.js
+      - bootstrap.js
+
+  app.js:
+    root: ./../js/src/hoborg
+    files:
+      - model/*.js
+      - collection/*.js
+      - view/*.js
+      - app.js
+
+  hoborg-views.js:
+    root: ./../src/Hoborg/Bundle/ContentServiceBundle/Resources/templates/ContentStandard
+    files:
+      - "*.js.html"
+      - elements/*.js.html
+      - header/*.js.html
+      - main/*.js.html
+    filters:
+      - mustache

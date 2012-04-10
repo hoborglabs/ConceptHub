@@ -14,10 +14,10 @@ We are now using:
 * backbone (http://documentcloud.github.com/backbone)
 * jquery (http://jquery.com)
 * underscore (http://documentcloud.github.com/underscore)
+* node.js (http://nodejs.org)
 
 We will be using shortly:
 
-* node.js (http://nodejs.org)
 * assetic (https://github.com/kriswallsmith/assetic)
 * jasmine (http://pivotal.github.com/jasmine)
 * jenkins (http://jenkins-ci.org)

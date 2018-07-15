@@ -19,7 +19,7 @@ We are now using:
 We will be using shortly:
 
 * assetic (https://github.com/kriswallsmith/assetic)
-* jasmine (http://pivotal.github.com/jasmine)
+* jasmine (https://jasmine.github.io/)
 * jenkins (http://jenkins-ci.org)
 
 
